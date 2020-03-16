@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<script src="jquery-3.2.1.js"></script>
+<title>Document</title>
+<style>
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+} 
+img {
+    vertical-align: top;
+}
+#wrap {
+    margin: 40px auto;
+    position: relative;
+    width: 600px;
+    height: 400px;
+    overflow: hidden;
+    box-shadow: 2px 2px 2px #8a8a8a;
+}    
+#pics {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    height: 400px;
+    z-index: 1;
+}
+#pics li{
+    width: 600px;
+    height: 400px;
+}
+#pics img {
+    width: 600px;
+    height: 400px;
+}
+.btn {
+    position: absolute;
+    top: 170px;
+    z-index: 2;
+    width: 60px;
+    font: 40px/60px "宋体";
+    text-align: center;
+    background: rgba(255, 255, 255, .6);
+    text-decoration: none;
+    color: #000;
+}
+.btn:hover {
+    background: #fff;
+}
+.prev {
+    left: 0;
+}
+.next {
+    right: 0;
+}
+#navs {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    z-index: 3;
+    width: 100%;
+    text-align: center;
+}
+#navs a {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+}
+#navs .active {
+    background: #f60;
+}
+</style>
+</head>
+<body>
+<div id="wrap">
+    <ul id="pics">
+        <li>
+            <img src="img2/img (1).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (2).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (3).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (4).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (5).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (1).jpg" />
+        </li>
+    </ul>
+    <a href="javascript:;" class="btn prev"><</a>
+    <a href="javascript:;" class="btn next">></a>
+    <nav id="navs">
+        <a class="active"></a>
+        <a></a>
+        <a></a>
+        <a></a>
+        <a></a>
+    </nav>
+</div>
+<script src="miaov.js"></script>
+<script>
+$(function(){
+let n = 0;
+let off = false;
+let width = $("#pics li").width();
+//给当前的小点加上active
+ $("#navs").on("click", function () {
+    $("#navs").addClass("active").eq((this).index).siblings().remove("active");
+})
+//当点击next时
+$(".next").on("click", function(){
+    if(off)
+    return;
+    n++;
+   move();
+ })
+//当点击prev时
+$(".prev").on("click", function () {
+    if (off)
+     return;
+    n--
+  move();
+})
+//自动播放
+let t = setInterval(function () { n++; move(); }, 1000);
+//运动方法
+function move(){
+    if (n > $("#navs a").length) {
+        n = 1;
+        $("#pics").css({ left: 0 })
+    }
+    if (n < 0) {
+        n = $("#navs a").length - 1
+        $("#pics").css({ left: (n * 600) })
+    }
+    $("#navs a").removeClass("active").eq(n > $("#navs a").length - 1 ? 0 : n).addClass("active");
+    $("#pics").css({
+        left: -(n * 600)
+    })
+}
+
+});
+</script>
+</body>
+</html>
